@@ -21,7 +21,7 @@ int main() {
 
     bool confirmed = false;
     while (!confirmed) {
-        cout << "Zadejte číslo classy: ";
+        cout << "Zadejte cislo classy: ";
         cin >> playerclasschoice;
 
         switch (playerclasschoice) {
@@ -66,7 +66,7 @@ int main() {
                 attack = 3;
                 break;
             default:
-                cout << "Neplatná volba. Zkuste znovu." << endl;
+                cout << "Neplatna volba. Zkuste znovu." << endl;
                 continue;
         }
 
@@ -78,19 +78,19 @@ int main() {
 
         cout << "Class: " << className << endl;
         cout << "Statistiky:" << endl;
-        cout << "Život - " << currentHealth << "/" << maxHealth << endl;
-        cout << "Útok - " << attack << endl;
+        cout << "Zivot - " << currentHealth << "/" << maxHealth << endl;
+        cout << "Utok - " << attack << endl;
         cout << "Mana - " << currentMana << "/" << maxMana << endl;
 
         string choice;
-        cout << "Chcete potvrdit výběr? (ano/ne): ";
+        cout << "Chcete potvrdit vyber? (ano/ne): ";
         cin >> choice;
         if (choice == "ano") {
             confirmed = true;
         }
     }
 
-    cout << "Začíná vaše dobrodružství!" << endl;
+    
 
     return 0;
 }
