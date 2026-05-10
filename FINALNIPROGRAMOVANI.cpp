@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
 int main() {
@@ -12,6 +14,8 @@ int main() {
     int level;
     int experience;
     int attack;
+    string className;
+    srand(time(0));
 
     cout << "Vyberte si classu:" << endl;
     cout << "1. Paladin" << endl;
@@ -70,7 +74,6 @@ int main() {
                 continue;
         }
 
-        string className;
         if (playerclasschoice == 1) className = "Paladin";
         else if (playerclasschoice == 2) className = "Lovec";
         else if (playerclasschoice == 3) className = "Mag";
@@ -89,8 +92,35 @@ int main() {
             confirmed = true;
         }
     }
+    int hp_nepritel = 10;
+int utok_nepritel = 2;
+
+cout << "Narazil jsi na nepritele!" << endl;
+
+while (hp_nepritel > 0 && currentHealth > 0) {
+    int akce;
+    cout << "Tvoje HP: " << currentHealth << " | HP nepritele: " << hp_nepritel << endl;
+    cout << "1 - Utok, 2 - Nic: ";
+    cin >> akce;
+
+    if (akce == 1) {
+        hp_nepritel = hp_nepritel - attack;
+        cout << "Dal jsi ranu za " << attack << endl;
+    }
+
+    if (hp_nepritel > 0) {
+        currentHealth = currentHealth - utok_nepritel;
+        cout << "Nepritel te zasahl za " << utok_nepritel << endl;
+    }
+}
+
+if (currentHealth <= 0) {
+    cout << "Prohra!" << endl;
+} else {
+    cout << "Vyhra! Nasel jsi 5 penez." << endl;
+    gold = gold + 5;
+}
 
     
-
     return 0;
 }
