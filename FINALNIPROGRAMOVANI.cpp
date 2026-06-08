@@ -30,53 +30,53 @@ int main() {
         cin >> playerclasschoice;
 
         switch (playerclasschoice) {
-            case 1:
-                maxHealth = 16;
-                currentHealth = 16;
-                maxMana = 8;
-                currentMana = 8;
-                gold = 0;
-                level = 1;
-                experience = 0;
-                attack = 5;
-                classBonusDamage = 5;
-                break;
-            case 2:
-                maxHealth = 14;
-                currentHealth = 14;
-                maxMana = 7;
-                currentMana = 7;
-                gold = 0;
-                level = 1;
-                experience = 0;
-                attack = 6;
-                classBonusDamage = 5;
-                break;
-            case 3:
-                maxHealth = 13;
-                currentHealth = 13;
-                maxMana = 10;
-                currentMana = 10;
-                gold = 0;
-                level = 1;
-                experience = 0;
-                attack = 4;
-                classBonusDamage = 6;
-                break;
-            case 4:
-                maxHealth = 16;
-                currentHealth = 16;
-                maxMana = 8;
-                currentMana = 8;
-                gold = 0;
-                level = 1;
-                experience = 0;
-                attack = 6;
-                classBonusDamage = 5;
-                break;
-            default:
-                cout << "Neplatna volba Zkuste znovu." << endl;
-                continue;
+        case 1:
+            maxHealth = 12;
+            currentHealth = 12;
+            maxMana = 8;
+            currentMana = 8;
+            gold = 0;
+            level = 1;
+            experience = 0;
+            attack = 4;
+            classBonusDamage = 4;
+            break;
+        case 2:
+            maxHealth = 13;
+            currentHealth = 13;
+            maxMana = 7;
+            currentMana = 7;
+            gold = 0;
+            level = 1;
+            experience = 0;
+            attack = 5;
+            classBonusDamage = 4;
+            break;
+        case 3:
+            maxHealth = 12;
+            currentHealth = 12;
+            maxMana = 10;
+            currentMana = 10;
+            gold = 0;
+            level = 1;
+            experience = 0;
+            attack = 4;
+            classBonusDamage = 6;
+            break;
+        case 4:
+            maxHealth = 14;
+            currentHealth = 14;
+            maxMana = 8;
+            currentMana = 8;
+            gold = 0;
+            level = 1;
+            experience = 0;
+            attack = 5;
+            classBonusDamage = 3;
+            break;
+        default:
+            cout << "Neplatna volba Zkuste znovu." << endl;
+            continue;
         }
 
         if (playerclasschoice == 1) className = "Paladin";
@@ -98,7 +98,7 @@ int main() {
         }
     }
 
-    int hp_nepritel = 10;
+    int hp_nepritel = 15;
     int utok_nepritel = 2;
 
     cout << endl << "Narazil jsi na nepritele!" << endl;
@@ -106,34 +106,52 @@ int main() {
     while (hp_nepritel > 0 && currentHealth > 0) {
         int akce;
         cout << "Tvoje HP: " << currentHealth << " | HP nepritele: " << hp_nepritel << endl;
-        cout << "1 - Utok, 2 - Nic: ";
+        cout << "1 - Utok, 2 - Specialni utok (vyuzije 2 many): ";
         cin >> akce;
 
         if (akce == 1) {
             hp_nepritel = hp_nepritel - (attack + classBonusDamage);
             cout << "Dal jsi ranu za " << (attack + classBonusDamage) << endl;
         }
-
+        else if (akce == 2) {
+            if (currentMana >= 2) {
+                hp_nepritel = hp_nepritel - (attack + classBonusDamage + 2);
+                currentMana = currentMana - 2;
+                cout << "Pouzil jsi specialni utok za " << (attack + classBonusDamage + 2) << " poskozeni." << endl;
+            }
+            else {
+                cout << "Nemas dost many!" << endl;
+            }
+        }
+        else {
+            cout << "Nic jsi neudelal." << endl;
+        }
         if (hp_nepritel > 0) {
             currentHealth = currentHealth - utok_nepritel;
             cout << "Nepritel te zasahl za " << utok_nepritel << endl;
+        }
+        if (currentMana < maxMana) {
+            cout << "Za konec kola ziskavas zpet 1 manu" << endl;
+            currentMana++;
         }
     }
 
     if (currentHealth <= 0) {
         cout << "Prohra!" << endl;
         return 0;
-    } else {
+    }
+    else {
         cout << "Vyhra! Porazil jsi prvni monstrum." << endl;
         if (rand() % 2 == 0) {
             cout << "Nasel jsi u nej 5 penez." << endl;
             gold = gold + 5;
-        } else {
+        }
+        else {
             cout << "Monstrum u sebe nemelo zadne penize." << endl;
         }
     }
 
-    cout << "Pokracujes do male vesnice." << endl;
+    cout << "Pokracujes do vesnice." << endl;
     cout << "Mas " << gold << " zlato." << endl;
     cout << "1 - Vylepsit zivot o 1 za 5 zlata" << endl;
     cout << "2 - Vylepsit utok o 1 za 5 zlata" << endl;
@@ -145,19 +163,23 @@ int main() {
             maxHealth = maxHealth + 1;
             currentHealth = maxHealth;
             gold = gold - 5;
-            cout << "Maximalni zivot vylepsen na " << maxHealth << "." << endl;
-        } else {
+            cout << "Maximalni zivoty vylepseny na " << maxHealth << "." << endl;
+        }
+        else {
             cout << "Nemas dostatek zlata! Pokracujes bez vylepseni." << endl;
         }
-    } else if (volbaVesnice == 2) {
+    }
+    else if (volbaVesnice == 2) {
         if (gold >= 5) {
             attack = attack + 1;
             gold = gold - 5;
             cout << "Utok vylepsen na " << attack << "." << endl;
-        } else {
-            cout << "Nemas dostatek zlata! Pokracujes bez vylepseni." << endl;
         }
-    } else {
+        else {
+            cout << "Nemas dost zlata! Pokracujes bez vylepseni." << endl;
+        }
+    }
+    else {
         cout << "Pokracujes bez vylepseni." << endl;
     }
 
@@ -174,15 +196,18 @@ int main() {
         if (akce2 == 1) {
             hp_ork = hp_ork - (attack + classBonusDamage);
             cout << "Uderil jsi orka za " << (attack + classBonusDamage) << " poskozeni." << endl;
-        } else if (akce2 == 2) {
+        }
+        else if (akce2 == 2) {
             if (currentMana >= 2) {
                 hp_ork = hp_ork - (attack + classBonusDamage + 2);
                 currentMana = currentMana - 2;
                 cout << "Pouzil jsi specialni utok za " << (attack + classBonusDamage + 2) << " poskozeni." << endl;
-            } else {
+            }
+            else {
                 cout << "Nemas dost many!" << endl;
             }
-        } else {
+        }
+        else {
             cout << "Nic jsi neudelal." << endl;
         }
 
@@ -190,17 +215,23 @@ int main() {
             currentHealth = currentHealth - utok_ork;
             cout << "Ork te uderil za " << utok_ork << "." << endl;
         }
+        if (currentMana < maxMana) {
+            cout << "Za konec kola ziskavas zpet 1 manu" << endl;
+            currentMana++;
+        }
     }
 
     if (currentHealth <= 0) {
         cout << "Prohral jsi proti orku." << endl;
         return 0;
-    } else {
+    }
+    else {
         cout << "Vyhral jsi proti orku!" << endl;
         if (rand() % 2 == 0) {
             gold = gold + 10;
             cout << "Ziskal jsi 10 zlata." << endl;
-        } else {
+        }
+        else {
             cout << "Ork u sebe nemel zadne penize." << endl;
         }
         experience = experience + 10;
@@ -231,26 +262,44 @@ int main() {
             if (hp_bandita1 > 0) {
                 hp_bandita1 = hp_bandita1 - (attack + classBonusDamage);
                 cout << "Uderil jsi banditu cislo jednicku za " << (attack + classBonusDamage) << " poskozeni." << endl;
-            } else {
+                if (hp_bandita1 < 0) {
+                    hp_bandita1 = 0;
+                }
+            }
+            else {
                 hp_bandita2 = hp_bandita2 - (attack + classBonusDamage);
+                if (hp_bandita2 < 0) {
+                    hp_bandita2 = 0;
+                }
                 cout << "Uderil jsi banditu cislo dvojku za " << (attack + classBonusDamage) << " poskozeni." << endl;
             }
-        } else if (akce4 == 2) {
+        }
+        else if (akce4 == 2) {
             if (currentMana >= 2) {
                 currentMana = currentMana - 2;
                 if (hp_bandita1 > 0) {
                     hp_bandita1 = hp_bandita1 - (attack + classBonusDamage + 2);
+                    if (hp_bandita1 < 0) {
+                        hp_bandita1 = 0;
+                    }
+
                 }
                 if (hp_bandita2 > 0) {
                     hp_bandita2 = hp_bandita2 - (attack + classBonusDamage + 2);
+                    if (hp_bandita2 < 0) {
+                        hp_bandita2 = 0;
+                    }
                 }
                 cout << "Pouzil jsi specialni utok na oba bandity." << endl;
-            } else {
+            }
+            else {
                 cout << "Nemas dost many!" << endl;
             }
-        } else {
+        }
+        else {
             cout << "Utekas pry? Pokracujes ve boji." << endl;
         }
+
         if (hp_bandita1 > 0) {
             currentHealth = currentHealth - utok_bandit;
             cout << "Bandita cislo jedna te uderil za " << utok_bandit << " poskozeni." << endl;
@@ -259,11 +308,16 @@ int main() {
             currentHealth = currentHealth - utok_bandit;
             cout << "Bandita cislo dva te uderil za " << utok_bandit << " poskozeni." << endl;
         }
+        if (currentMana < maxMana) {
+            cout << "Za konec kola ziskavas zpet 1 manu" << endl;
+            currentMana++;
+        }
     }
     if (currentHealth <= 0) {
         cout << "Banditi te porazili. Hra konci." << endl;
         return 0;
-    } else {
+    }
+    else {
         cout << "Vyhral jsi proti banditum!" << endl;
         gold = gold + 8;
         experience = experience + 8;
@@ -278,6 +332,7 @@ int main() {
         }
     }
 
+
     cout << "Prichazis do maleho taboru a doplnujes naboj." << endl;
     cout << "1 - Doplni zivoty o 2 za 5 zlata" << endl;
     cout << "2 - Doplni manu o 2 za 5 zlata" << endl;
@@ -290,19 +345,23 @@ int main() {
             currentHealth = currentHealth + 2;
             if (currentHealth > maxHealth) currentHealth = maxHealth;
             cout << "Doprovan zivoty Aktualni HP: " << currentHealth << "/" << maxHealth << endl;
-        } else {
+        }
+        else {
             cout << "Nemas dost zlata." << endl;
         }
-    } else if (volbaTabor == 2) {
+    }
+    else if (volbaTabor == 2) {
         if (gold >= 5) {
             gold = gold - 5;
             currentMana = currentMana + 2;
             if (currentMana > maxMana) currentMana = maxMana;
             cout << "Doprovan mana Aktualni mana: " << currentMana << "/" << maxMana << endl;
-        } else {
+        }
+        else {
             cout << "Nemas dost zlata." << endl;
         }
-    } else {
+    }
+    else {
         cout << "Pokracujes dal." << endl;
     }
 
@@ -321,24 +380,50 @@ int main() {
             if (hp_goblin1 > 0) {
                 hp_goblin1 -= (attack + classBonusDamage);
                 cout << "Uderil jsi goblina cislo jedna za " << (attack + classBonusDamage) << " poskozeni." << endl;
-            } else if (hp_goblin2 > 0) {
+                if (hp_goblin1 < 0) {
+                    hp_goblin1 = 0;
+                }
+            }
+            else if (hp_goblin2 > 0) {
                 hp_goblin2 -= (attack + classBonusDamage);
                 cout << "Uderil jsi goblina cislo dva za " << (attack + classBonusDamage) << " poskozeni." << endl;
-            } else {
+                if (hp_goblin2 < 0) {
+                    hp_goblin2 = 0;
+                }
+            }
+            else {
                 hp_goblin3 -= (attack + classBonusDamage);
                 cout << "Uderil jsi goblina cislo tri za " << (attack + classBonusDamage) << " poskozeni." << endl;
+                if (hp_goblin3 < 0) {
+                    hp_goblin3 = 0;
+                }
             }
-        } else if (volbaTabor == 2) {
+        }
+        else if (volbaTabor == 2) {
             if (currentMana >= 2) {
                 currentMana -= 2;
                 if (hp_goblin1 > 0) hp_goblin1 -= (attack + classBonusDamage + 2);
                 if (hp_goblin2 > 0) hp_goblin2 -= (attack + classBonusDamage + 2);
                 if (hp_goblin3 > 0) hp_goblin3 -= (attack + classBonusDamage + 2);
+                if (hp_goblin1 < 0) {
+                    hp_goblin1 = 0;
+                }
+                if (hp_goblin1 < 0) {
+                    hp_goblin1 = 0;
+                }
+                if (hp_goblin2 < 0) {
+                    hp_goblin2 = 0;
+                }
+                if (hp_goblin3 < 0) {
+                    hp_goblin3 = 0;
+                }
                 cout << "Pouzil jsi specialni utok na vsechny gobliny." << endl;
-            } else {
+            }
+            else {
                 cout << "Nemas dost many!" << endl;
             }
-        } else {
+        }
+        else {
             cout << "Nic jsi neudelal." << endl;
         }
         if (hp_goblin1 > 0) {
@@ -353,27 +438,32 @@ int main() {
             currentHealth -= utok_goblin;
             cout << "Goblin cislo tri te uderil za " << utok_goblin << " poskozeni." << endl;
         }
+        if (currentMana < maxMana) {
+            cout << "Za konec kola ziskavas zpet 1 manu" << endl;
+            currentMana++;
+        }
     }
     if (currentHealth <= 0) {
         cout << "Goblini te porazili Hra konci." << endl;
         return 0;
-    } else {
+    }
+    else {
         cout << "Vyhral jsi proti goblinum!" << endl;
-            gold = gold + 12;
-            experience = experience + 12;
-            cout << "Ziskal jsi 12 zlata a 12 zkusenosti." << endl;
-            if (experience >= level * 10) {
-                level = level + 1;
-                maxHealth = maxHealth + 1;
-                attack = attack + 1;
+        gold = gold + 12;
+        experience = experience + 12;
+        cout << "Ziskal jsi 12 zlata a 12 zkusenosti." << endl;
+        if (experience >= level * 10) {
+            level = level + 1;
+            maxHealth = maxHealth + 1;
+            attack = attack + 1;
             cout << "Max zivot +1, utok +1." << endl;
         }
     }
 
     cout << "Pokracujes do jeskyne kde se skryva mini boss - divoky troll." << endl;
+    cout << "V tomto kole se tu nebude regenerovat mana" << endl;
     int hp_troll = 15;
     int utok_troll = 4;
-
     while (hp_troll > 0 && currentHealth > 0) {
         currentHealth = currentHealth - utok_troll;
         cout << "Troll te uderil za " << utok_troll << "." << endl;
@@ -390,19 +480,23 @@ int main() {
         if (akce3 == 1) {
             hp_troll = hp_troll - (attack + classBonusDamage);
             cout << "Uderil jsi trolla za " << (attack + classBonusDamage) << " poskozeni." << endl;
-        } else if (akce3 == 2) {
+        }
+        else if (akce3 == 2) {
             if (currentMana >= 2) {
                 hp_troll = hp_troll - (attack + classBonusDamage + 3);
                 currentMana = currentMana - 2;
                 cout << "Pouzil jsi specialni utok za " << (attack + classBonusDamage + 3) << " poskozeni." << endl;
-            } else {
+            }
+            else {
                 cout << "Nemas dost many!" << endl;
             }
-        } else if (akce3 == 3) {
+        }
+        else if (akce3 == 3) {
             currentMana = currentMana + 2;
             if (currentMana > maxMana) currentMana = maxMana;
             cout << "Obnovil jsi 2 many. Mana: " << currentMana << "/" << maxMana << endl;
-        } else {
+        }
+        else {
             cout << "Nic jsi neudelal." << endl;
         }
     }
@@ -410,7 +504,8 @@ int main() {
     if (currentHealth <= 0) {
         cout << "Troll te porazil. Hra konci." << endl;
         return 0;
-    } else {
+    }
+    else {
         cout << "Vyhral jsi proti trollovi!" << endl;
         gold = gold + 15;
         experience = experience + 15;
@@ -437,19 +532,79 @@ int main() {
             gold -= 5;
             currentHealth = maxHealth;
             cout << "Tvoje zivoty jsou plne." << endl;
-        } else {
+        }
+        else {
             cout << "Nemas dost zlata." << endl;
         }
-    } else if (vesnice2 == 2) {
+    }
+    else if (vesnice2 == 2) {
         if (gold >= 5) {
             gold -= 5;
             currentMana = maxMana;
             cout << "Tvoje mana je plna." << endl;
-        } else {
+        }
+        else {
             cout << "Nemas dost zlata." << endl;
         }
-    } else {
+    }
+    else {
         cout << "Pokracujes bez doplneni." << endl;
+    }
+
+    cout << endl << "Ze stinu na tebe vybafnul stinovy priznak!" << endl;
+    int hp_prizrak = 14;
+    int utok_prizrak = 4;
+
+    while (hp_prizrak > 0 && currentHealth > 0) {
+        currentHealth -= utok_prizrak;
+        cout << "Stinovy Prizrak te zasahl stinovym bleskem za " << utok_prizrak << " poskozeni." << endl;
+
+        if (currentHealth <= 0) {
+            break;
+        }
+
+        cout << "Tvoje HP: " << currentHealth << " | HP Prizraku: " << hp_prizrak << " | Mana: " << currentMana << "/" << maxMana << endl;
+        cout << "1 - Utok, 2 - Specialni utok (vyuzije 2 many): ";
+        int akcePrizrak;
+        cin >> akcePrizrak;
+
+        if (akcePrizrak == 1) {
+            hp_prizrak -= (attack + classBonusDamage);
+            cout << "Seknul jsi do prizraku za " << (attack + classBonusDamage) << " poskozeni." << endl;
+        }
+        else if (akcePrizrak == 2) {
+            if (currentMana >= 2) {
+                currentMana -= 2;
+                hp_prizrak -= (attack + classBonusDamage + 3);
+                cout << "Tvuj magicky specialni utok spalil prizrak za " << (attack + classBonusDamage + 3) << " poskozeni." << endl;
+            }
+            else {
+                cout << "Nemas dost many! Ztratil jsi tah." << endl;
+            }
+        }
+        else {
+            cout << "Zmatene jsi promarnil tah." << endl;
+        }
+
+        if (currentMana < maxMana) {
+            cout << "Za konec kola ziskavas 1 manu" << endl;
+            currentMana++;
+        }
+    }
+
+    if (currentHealth <= 0) {
+        cout << "Stinovy prizrak pohltil tvou dusi. Hra konci." << endl;
+        return 0;
+    }
+    else {
+        cout << "Rozprasil jsi stinoveho prizraka!" << endl;
+        gold += 15;
+        experience += 15;
+        cout << "Ziskal jsi 15 zlata a 15 zkusenosti." << endl;
+        if (experience >= level * 10) {
+            level++; maxHealth++; attack++; currentHealth = maxHealth;
+            cout << "Novy level " << level << "!" << endl;
+        }
     }
 
     cout << "Na ceste k bossovi potkas skupinu skretu." << endl;
@@ -464,26 +619,34 @@ int main() {
         if (akce5 == 1) {
             hp_skret = hp_skret - (attack + classBonusDamage);
             cout << "Uderil jsi skretu za " << (attack + classBonusDamage) << " poskozeni." << endl;
-        } else if (akce5 == 2) {
+        }
+        else if (akce5 == 2) {
             if (currentMana >= 2) {
                 hp_skret = hp_skret - (attack + classBonusDamage + 2);
                 currentMana = currentMana - 2;
                 cout << "Pouzil jsi specialni utok za " << (attack + classBonusDamage + 2) << " poskozeni." << endl;
-            } else {
+            }
+            else {
                 cout << "Nemas dost many!" << endl;
             }
-        } else {
+        }
+        else {
             cout << "Nic jsi neudelal." << endl;
         }
         if (hp_skret > 0) {
             currentHealth = currentHealth - utok_skret;
             cout << "Skret te uderil za " << utok_skret << " poskozeni." << endl;
         }
+        if (currentMana < maxMana) {
+            cout << "Za konec kola ziskavas zpet 1 manu" << endl;
+            currentMana++;
+        }
     }
     if (currentHealth <= 0) {
         cout << "Skřet te porazil Hra konci." << endl;
         return 0;
-    } else {
+    }
+    else {
         cout << "Vyhral jsi proti skretovi!" << endl;
         gold = gold + 10;
         experience = experience + 10;
@@ -528,17 +691,20 @@ int main() {
             tetrafluxAttack = tetrafluxAttack + pridani;
             bonusPosileni = bonusPosileni + 1;
             cout << "Tetraflux pouzil Posileni. Jeho sila narostla o " << pridani << "." << endl;
-        } else if (volbaTetra == 2) {
+        }
+        else if (volbaTetra == 2) {
             int pridani = 1 + bonusOziveni;
             hp_tetraflux = hp_tetraflux + pridani;
             bonusOziveni = bonusOziveni + 1;
             cout << "Tetraflux pouzil Oziveni. Ziskal " << pridani << " HP." << endl;
-        } else if (volbaTetra == 3) {
+        }
+        else if (volbaTetra == 3) {
             int poskozeni = tetrafluxAttack + bonusUtoku;
             currentHealth = currentHealth - poskozeni;
             bonusUtoku = bonusUtoku + 1;
             cout << "Tetraflux te utocil za " << poskozeni << " poskozeni." << endl;
-        } else if (volbaTetra == 4) {
+        }
+        else if (volbaTetra == 4) {
             int pridani = 1 + bonusBrneni;
             tetrafluxArmor = tetrafluxArmor + pridani;
             bonusBrneni = bonusBrneni + 1;
@@ -561,29 +727,37 @@ int main() {
             if (poskozeni < 0) poskozeni = 0;
             hp_tetraflux = hp_tetraflux - poskozeni;
             cout << "Uderil jsi tetraflux za " << poskozeni << " poskozeni." << endl;
-        } else if (akce4 == 2) {
+        }
+        else if (akce4 == 2) {
             if (currentMana >= 3) {
                 currentMana = currentMana - 3;
                 int poskozeni = attack + classBonusDamage + 4 - tetrafluxArmor;
                 if (poskozeni < 0) poskozeni = 0;
                 hp_tetraflux = hp_tetraflux - poskozeni;
                 cout << "Pouzil jsi specialni utok za " << poskozeni << " poskozeni." << endl;
-            } else {
+            }
+            else {
                 cout << "Nemas dost many!" << endl;
             }
-        } else if (akce4 == 3) {
+        }
+        else if (akce4 == 3) {
             if (currentMana >= 2) {
                 currentMana = currentMana - 2;
                 currentHealth = currentHealth + 2;
                 if (currentHealth > maxHealth) currentHealth = maxHealth;
                 cout << "Obnovil jsi 2 zivota. HP: " << currentHealth << "/" << maxHealth << endl;
-            } else {
+            }
+            else {
                 cout << "Nemas dost many!" << endl;
             }
-        } else {
+        }
+        else {
             cout << "Nic jsi neudelal." << endl;
         }
-
+        if (currentMana < maxMana) {
+            cout << "Za konec kola ziskavas zpet 1 manu" << endl;
+            currentMana++;
+        }
         if (hp_tetraflux <= 0) {
             break;
         }
@@ -592,11 +766,10 @@ int main() {
     if (currentHealth <= 0) {
         cout << "Tetraflux te porazil. Hra konci." << endl;
         return 0;
-    } else {
+    }
+    else {
         cout << "Vyhral jsi! Porazil jsi Tetrafluxe." << endl;
-        gold = gold + 30;
-        experience = experience + 30;
-        cout << "Mas " << gold << " zlata a " << experience << " zkusenosti." << endl;
+        cout << "konec hry" << endl << endl;
     }
 
     return 0;
